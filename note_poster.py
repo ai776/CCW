@@ -15,6 +15,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from dotenv import load_dotenv
 
 # 環境変数の読み込み
@@ -59,7 +61,9 @@ def get_note_cookies(email, password):
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--disable-gpu')
 
-    driver = webdriver.Chrome(options=chrome_options)
+    # webdriver-managerを使用して自動的にChromeDriverを取得
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         # ログインページにアクセス
